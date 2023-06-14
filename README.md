@@ -14,3 +14,14 @@ add your test case directly to a module's unit tests (using the template class),
 Although it's perfectly acceptable as a reproducer, lean towards ORMUnitTestCase whenever possible.
 
 **For a detailed step-by-step tutorial about how you should be using our test case templates check out the [following article](http://in.relation.to/2016/01/14/hibernate-jpa-test-case-template/)**.
+
+* I added one test in the JPAUnitTestCase class, I used the entities as described in the bug https://discourse.hibernate.org/t/hibernate-6-npes-on-lazy-loaded-entities-in-collection/7661
+but I only copied the relevant data, it is a many to many relationship between system and modules where module is mapped by a combined key of a UUID and a version. I did two changes which might be relevant
+
+* I changed  javax.persistence libary used in the OHH platform to the jakarta.persistence libary which is the succesor and used in hibernate core version 6 
+
+ In the mapping from system to modules a List.of() was used to initiate an initial empty list, I had to change that to new ArrayList() because the List.of() is an inmutable list and gave an UnsupportedOperationException 
+when I was linking the systems and modules in my test setup. Not sure if this is relevant, is probably just my test setup. 
+
+
+
