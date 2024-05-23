@@ -1,45 +1,36 @@
 package entities;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-
-@Table(name = "module")
+@Table(name = "user_participants")
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
-public class Module {
+public class UserParticipant {
 
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long version;
+    @ManyToOne
+    @JoinColumn(name = "user_invite_id", referencedColumnName = "id")
+    private UserInvite userInvite;
 
-    @ManyToMany(mappedBy = "modules")
-    private List<Program> programs = new ArrayList<>();
-
-    @Column(name = "module_uuid", nullable = false)
-    private UUID moduleUuid;
+    @ManyToOne
+    @JoinColumn(name = "program_uuid", referencedColumnName = "program_uuid")
+    @JoinColumn(name = "program_version", referencedColumnName = "version")
+    private Program program;
 
 }
